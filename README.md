@@ -45,6 +45,8 @@ GET  /docs                        # Interactive API docs
 - Three tabs: Single, Batch, File Upload
 - Real-time results visualization
 - Drag & drop file upload
+<img width="493" height="359" alt="Screenshot 2025-11-02 at 10 50 50 AM" src="https://github.com/user-attachments/assets/e1c788ec-92e7-4c0b-8166-886d3d3320bc" />
+
 
 ---
 
@@ -137,25 +139,50 @@ python main.py
 3. Enter or upload tweets
 4. Click analyze!
 
+Single Tweet:
+
+<img width="471" height="570" alt="Screenshot 2025-11-02 at 10 41 32 AM" src="https://github.com/user-attachments/assets/f4e55cc5-ccf7-4947-9bc6-64e65164ea00" />
+
+Batch Analysis:
+
+<img width="528" height="755" alt="Screenshot 2025-11-02 at 10 40 30 AM" src="https://github.com/user-attachments/assets/16bcb12d-272c-408a-8f6a-bb9468282398" />
+
+File Upload:
+
+<img width="471" height="535" alt="Screenshot 2025-11-02 at 10 41 21 AM" src="https://github.com/user-attachments/assets/02c7bbf0-8f45-4b00-adda-a0ad26449cd1" />
+
+
 #### **Option B: API with cURL**
 ```bash
 # Analyze single tweet
 curl -X POST "http://localhost:8000/analyze/single" \
   -H "Content-Type: application/json" \
   -d '{"text":"I love Apache Beam! 🎉"}'
+```
+
+<img width="916" height="75" alt="Screenshot 2025-11-02 at 10 53 44 AM" src="https://github.com/user-attachments/assets/23f34ee8-c2dc-4132-a086-dd701086a63d" />
 
 # Batch analysis (creates files in output/)
+```bash
 curl -X POST "http://localhost:8000/analyze/batch-with-files" \
   -H "Content-Type: application/json" \
   -d '{"tweets":["Tweet 1","Tweet 2","Tweet 3"]}'
+```
+
+<img width="914" height="223" alt="Screenshot 2025-11-02 at 10 53 05 AM" src="https://github.com/user-attachments/assets/cd2ede1b-4338-4af5-aa55-7e1b74f194cc" />
 
 # View output files
+```bash
 ls -la output/
 cat output/sentiment_counts_*
 ```
 
 #### **Option C: Interactive Swagger UI**
+```bash
 Visit: http://localhost:8000/docs
+```
+
+<img width="1199" height="620" alt="Screenshot 2025-11-02 at 10 42 28 AM" src="https://github.com/user-attachments/assets/1095e92b-9a54-4731-9797-f9075445aa94" />
 
 ---
 
@@ -165,6 +192,8 @@ Visit: http://localhost:8000/docs
 ```
 "I love Apache Beam! It's amazing! 🎉 #apachebeam"
 ```
+
+<img width="1019" height="694" alt="Screenshot 2025-11-02 at 10 54 54 AM" src="https://github.com/user-attachments/assets/88abc80a-3d94-489d-86d9-dec8536a524c" />
 
 ### **Output:**
 ```json
@@ -177,6 +206,8 @@ Visit: http://localhost:8000/docs
   "emoji_score": 2
 }
 ```
+
+<img width="1049" height="527" alt="Screenshot 2025-11-02 at 10 55 20 AM" src="https://github.com/user-attachments/assets/9155b3ac-e010-414f-b0fd-178bbe044bd8" />
 
 ---
 
@@ -245,7 +276,3 @@ CTRL + C
 | 📂 File Output | Optional output files for analysis |
 
 ---
-
-**Built with ❤️ for MLOps Course**
-
-Apache Beam + FastAPI = Powerful Data Processing API 🚀
