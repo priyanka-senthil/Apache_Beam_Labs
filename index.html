@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Twitter Sentiment Analyzer</title>
+    <title>Twitter Sentiment Analyzer - Full Featured</title>
     <style>
         * {
             margin: 0;
@@ -12,12 +12,9 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
         }
         
@@ -25,8 +22,8 @@
             background: white;
             border-radius: 20px;
             padding: 40px;
-            max-width: 800px;
-            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
         
@@ -43,11 +40,56 @@
             margin-bottom: 30px;
         }
         
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            color: #667eea;
+            background: #f5f5f5;
+        }
+        
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Form Elements */
         textarea {
             width: 100%;
             padding: 15px;
             border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 16px;
             font-family: inherit;
             resize: vertical;
@@ -60,19 +102,23 @@
             border-color: #667eea;
         }
         
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
         }
         
         button {
-            flex: 1;
             padding: 15px 30px;
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -80,13 +126,8 @@
         }
         
         button:hover {
-            background: #5568d3;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        button:active {
-            transform: translateY(0);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
         }
         
         button:disabled {
@@ -95,103 +136,143 @@
             transform: none;
         }
         
-        .secondary {
-            background: #764ba2;
+        .button-group {
+            display: flex;
+            gap: 10px;
         }
         
-        .secondary:hover {
-            background: #6a4291;
+        .button-full {
+            width: 100%;
         }
         
+        /* File Upload */
+        .file-upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+        
+        .file-upload-area:hover {
+            background: #e3f2fd;
+            border-color: #764ba2;
+        }
+        
+        .file-upload-area.dragover {
+            background: #bbdefb;
+            border-color: #667eea;
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+        
+        .file-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .file-info.show {
+            display: block;
+        }
+        
+        /* Batch Tweets */
+        .batch-tweets {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .tweet-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .tweet-input input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .tweet-input button {
+            padding: 8px 16px;
+            font-size: 14px;
+            background: #ff6b6b;
+        }
+        
+        .add-tweet-btn {
+            margin-top: 10px;
+            background: #51cf66;
+        }
+        
+        /* Results */
         .result {
             margin-top: 30px;
-            padding: 20px;
+            padding: 25px;
             background: #f8f9fa;
-            border-radius: 10px;
+            border-radius: 12px;
             display: none;
         }
         
         .result.show {
             display: block;
-            animation: slideIn 0.3s ease-out;
+            animation: slideIn 0.3s;
         }
         
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .sentiment {
+        .sentiment-badge {
             display: inline-block;
-            padding: 8px 20px;
-            border-radius: 20px;
+            padding: 10px 24px;
+            border-radius: 25px;
             font-weight: 600;
             margin: 10px 0;
         }
         
-        .sentiment.POSITIVE {
-            background: #d4edda;
-            color: #155724;
+        .sentiment-badge.POSITIVE {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
         }
         
-        .sentiment.NEGATIVE {
-            background: #f8d7da;
-            color: #721c24;
+        .sentiment-badge.NEGATIVE {
+            background: linear-gradient(135deg, #ee0979, #ff6a00);
+            color: white;
         }
         
-        .sentiment.NEUTRAL {
-            background: #fff3cd;
-            color: #856404;
+        .sentiment-badge.NEUTRAL {
+            background: linear-gradient(135deg, #f2994a, #f2c94c);
+            color: white;
         }
         
-        .score-bar {
-            margin: 15px 0;
-        }
-        
-        .score-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .bar {
-            height: 10px;
-            background: #e0e0e0;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        
-        .bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transition: width 0.5s ease-out;
-        }
-        
-        .stats {
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
-            margin-top: 20px;
+            margin: 20px 0;
         }
         
         .stat-card {
             background: white;
-            padding: 15px;
+            padding: 20px;
             border-radius: 10px;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
         .stat-value {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             color: #667eea;
         }
@@ -202,6 +283,52 @@
             margin-top: 5px;
         }
         
+        .confidence-bar {
+            margin: 20px 0;
+        }
+        
+        .confidence-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .bar-container {
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.6s ease-out;
+        }
+        
+        .batch-result-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #c33;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+        }
+        
         .examples {
             margin-top: 20px;
             padding: 15px;
@@ -210,31 +337,24 @@
         }
         
         .examples h3 {
-            color: #1976d2;
+            color: #667eea;
             margin-bottom: 10px;
-            font-size: 16px;
+            font-size: 14px;
         }
         
-        .example-tweet {
+        .example-item {
             padding: 8px;
             margin: 5px 0;
             background: white;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 14px;
             transition: all 0.2s;
         }
         
-        .example-tweet:hover {
+        .example-item:hover {
             background: #bbdefb;
             transform: translateX(5px);
-        }
-        
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
         }
     </style>
 </head>
@@ -243,135 +363,446 @@
         <h1>🐦 Twitter Sentiment Analyzer</h1>
         <p class="subtitle">Powered by Apache Beam & FastAPI</p>
         
-        <textarea id="tweetInput" placeholder="Enter a tweet to analyze... (e.g., I love Apache Beam! 🎉)"></textarea>
-        
-        <div class="button-group">
-            <button onclick="analyzeTweet()">🔍 Analyze Tweet</button>
-            <button class="secondary" onclick="clearResults()">🗑️ Clear</button>
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('single')">
+                📝 Single Tweet
+            </button>
+            <button class="tab" onclick="switchTab('batch')">
+                📊 Batch Analysis
+            </button>
+            <button class="tab" onclick="switchTab('file')">
+                📁 File Upload
+            </button>
         </div>
         
-        <div class="examples">
-            <h3>💡 Try these examples:</h3>
-            <div class="example-tweet" onclick="setExample(0)">I love Apache Beam! It's amazing! 🎉 #apachebeam</div>
-            <div class="example-tweet" onclick="setExample(1)">This is the worst documentation ever 😡 #frustrated</div>
-            <div class="example-tweet" onclick="setExample(2)">Apache Beam is great for big data processing #bigdata</div>
-            <div class="example-tweet" onclick="setExample(3)">Not bad, but could be better</div>
+        <!-- Single Tweet Tab -->
+        <div id="singleTab" class="tab-content active">
+            <div class="input-group">
+                <textarea 
+                    id="singleTweet" 
+                    placeholder="Enter a tweet to analyze... (e.g., I love Apache Beam! 🎉)"
+                ></textarea>
+            </div>
+            
+            <button class="button-full" onclick="analyzeSingle()">
+                🔍 Analyze Tweet
+            </button>
+            
+            <div class="examples">
+                <h3>💡 Try these examples:</h3>
+                <div class="example-item" onclick="setSingleExample(0)">
+                    I love Apache Beam! It's amazing! 🎉 #apachebeam
+                </div>
+                <div class="example-item" onclick="setSingleExample(1)">
+                    This is terrible 😡 #frustrated
+                </div>
+                <div class="example-item" onclick="setSingleExample(2)">
+                    Not bad, but could be better
+                </div>
+            </div>
+            
+            <div id="singleResult" class="result"></div>
         </div>
         
-        <div id="result" class="result">
-            <h2>📊 Analysis Results</h2>
-            <div id="resultContent"></div>
+        <!-- Batch Analysis Tab -->
+        <div id="batchTab" class="tab-content">
+            <div class="input-group">
+                <label class="input-label">Enter multiple tweets (one per line):</label>
+                <textarea 
+                    id="batchTweets" 
+                    placeholder="Enter tweets separated by new lines...&#10;Tweet 1&#10;Tweet 2&#10;Tweet 3"
+                    rows="8"
+                ></textarea>
+            </div>
+            
+            <button class="button-full" onclick="analyzeBatch()">
+                📊 Analyze All Tweets
+            </button>
+            
+            <div class="examples">
+                <h3>💡 Load sample tweets:</h3>
+                <div class="example-item" onclick="loadBatchExamples()">
+                    Click to load 5 sample tweets
+                </div>
+            </div>
+            
+            <div id="batchResult" class="result"></div>
+        </div>
+        
+        <!-- File Upload Tab -->
+        <div id="fileTab" class="tab-content">
+            <div class="input-group">
+                <label class="input-label">Upload a file with tweets:</label>
+                <div 
+                    class="file-upload-area" 
+                    id="dropZone"
+                    onclick="document.getElementById('fileInput').click()"
+                >
+                    <div style="font-size: 48px; margin-bottom: 10px;">📁</div>
+                    <div style="font-size: 18px; font-weight: 600; margin-bottom: 10px;">
+                        Click to upload or drag & drop
+                    </div>
+                    <div style="font-size: 14px; color: #666;">
+                        Supports .txt (one tweet per line) or .json (array of tweets)
+                    </div>
+                </div>
+                <input 
+                    type="file" 
+                    id="fileInput" 
+                    accept=".txt,.json"
+                    onchange="handleFileSelect(event)"
+                >
+                <div id="fileInfo" class="file-info"></div>
+            </div>
+            
+            <button class="button-full" id="uploadBtn" onclick="uploadFile()" disabled>
+                📤 Upload and Analyze
+            </button>
+            
+            <div id="fileResult" class="result"></div>
         </div>
     </div>
 
     <script>
         const API_URL = 'http://localhost:8000';
+        let selectedFile = null;
         
-        const examples = [
+        const singleExamples = [
             "I love Apache Beam! It's amazing! 🎉 #apachebeam",
-            "This is the worst documentation ever 😡 #frustrated",
-            "Apache Beam is great for big data processing #bigdata",
+            "This is terrible 😡 #frustrated",
             "Not bad, but could be better"
         ];
         
-        function setExample(index) {
-            document.getElementById('tweetInput').value = examples[index];
+        const batchExamples = [
+            "I love this! 😊 #happy",
+            "This is terrible 😡 #angry",
+            "Apache Beam is great! #bigdata",
+            "Horrible experience 👎",
+            "Amazing work! 🎉 #success"
+        ];
+        
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            // Clear results
+            document.querySelectorAll('.result').forEach(r => r.classList.remove('show'));
         }
         
-        async function analyzeTweet() {
-            const tweetText = document.getElementById('tweetInput').value.trim();
+        // Single Tweet Analysis
+        function setSingleExample(index) {
+            document.getElementById('singleTweet').value = singleExamples[index];
+        }
+        
+        async function analyzeSingle() {
+            const text = document.getElementById('singleTweet').value.trim();
+            const resultDiv = document.getElementById('singleResult');
             
-            if (!tweetText) {
-                alert('Please enter a tweet to analyze!');
+            if (!text) {
+                alert('Please enter a tweet!');
                 return;
             }
             
-            const resultDiv = document.getElementById('result');
-            const resultContent = document.getElementById('resultContent');
+            resultDiv.innerHTML = '<div class="loading">🔄 Analyzing...</div>';
+            resultDiv.classList.add('show');
             
             try {
                 const response = await fetch(`${API_URL}/analyze/single`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ text: tweetText })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text })
                 });
                 
-                if (!response.ok) {
-                    throw new Error('Analysis failed');
-                }
+                if (!response.ok) throw new Error('Analysis failed');
                 
                 const data = await response.json();
-                displayResults(data);
-                resultDiv.classList.add('show');
+                displaySingleResult(data, resultDiv);
                 
             } catch (error) {
-                resultContent.innerHTML = `
+                resultDiv.innerHTML = `
                     <div class="error">
-                        ❌ Error: ${error.message}
-                        <br><br>
-                        Make sure the API server is running at ${API_URL}
+                        ❌ Error: ${error.message}<br>
+                        Make sure the API is running at ${API_URL}
                     </div>
                 `;
-                resultDiv.classList.add('show');
             }
         }
         
-        function displayResults(data) {
+        function displaySingleResult(data, container) {
             const confidence = Math.round(data.confidence * 100);
-            const totalScore = data.positive_score + data.negative_score;
-            const positivePercent = totalScore > 0 ? (data.positive_score / totalScore) * 100 : 0;
             
-            const resultContent = document.getElementById('resultContent');
-            resultContent.innerHTML = `
-                <div style="margin: 20px 0;">
+            container.innerHTML = `
+                <h2>📊 Analysis Results</h2>
+                <div style="background: white; padding: 15px; border-radius: 8px; margin: 15px 0;">
                     <strong>Tweet:</strong> "${data.tweet}"
                 </div>
-                
-                <div style="margin: 20px 0;">
-                    <strong>Sentiment:</strong>
-                    <span class="sentiment ${data.sentiment}">${data.sentiment}</span>
+                <div style="text-align: center;">
+                    <span class="sentiment-badge ${data.sentiment}">
+                        ${data.sentiment}
+                    </span>
                 </div>
-                
-                <div class="score-bar">
-                    <div class="score-label">
+                <div class="confidence-bar">
+                    <div class="confidence-label">
                         <span>Confidence</span>
-                        <span><strong>${confidence}%</strong></span>
+                        <span>${confidence}%</span>
                     </div>
-                    <div class="bar">
+                    <div class="bar-container">
                         <div class="bar-fill" style="width: ${confidence}%"></div>
                     </div>
                 </div>
-                
-                <div class="stats">
+                <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-value" style="color: #28a745;">+${data.positive_score}</div>
-                        <div class="stat-label">Positive Score</div>
+                        <div class="stat-label">Positive</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value" style="color: #dc3545;">-${data.negative_score}</div>
-                        <div class="stat-label">Negative Score</div>
+                        <div class="stat-label">Negative</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value">${data.emoji_score > 0 ? '+' : ''}${data.emoji_score}</div>
-                        <div class="stat-label">Emoji Impact</div>
+                        <div class="stat-label">Emoji</div>
                     </div>
                 </div>
             `;
         }
         
-        function clearResults() {
-            document.getElementById('tweetInput').value = '';
-            document.getElementById('result').classList.remove('show');
+        // Batch Analysis
+        function loadBatchExamples() {
+            document.getElementById('batchTweets').value = batchExamples.join('\n');
         }
         
-        // Allow Enter key to submit
-        document.getElementById('tweetInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && e.ctrlKey) {
-                analyzeTweet();
+        async function analyzeBatch() {
+            const text = document.getElementById('batchTweets').value.trim();
+            const resultDiv = document.getElementById('batchResult');
+            
+            if (!text) {
+                alert('Please enter tweets!');
+                return;
+            }
+            
+            const tweets = text.split('\n').filter(t => t.trim());
+            
+            if (tweets.length === 0) {
+                alert('No valid tweets found!');
+                return;
+            }
+            
+            resultDiv.innerHTML = `<div class="loading">🔄 Analyzing ${tweets.length} tweets...</div>`;
+            resultDiv.classList.add('show');
+            
+            try {
+                const response = await fetch(`${API_URL}/analyze/batch`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ tweets })
+                });
+                
+                if (!response.ok) throw new Error('Batch analysis failed');
+                
+                const data = await response.json();
+                displayBatchResult(data, resultDiv);
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        ❌ Error: ${error.message}<br>
+                        Make sure the API is running at ${API_URL}
+                    </div>
+                `;
+            }
+        }
+        
+        function displayBatchResult(data, container) {
+            let html = `
+                <h2>📊 Batch Analysis Results</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">${data.total_analyzed}</div>
+                        <div class="stat-label">Total Tweets</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #28a745;">${data.positive_percentage}%</div>
+                        <div class="stat-label">Positive</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #dc3545;">${data.negative_percentage}%</div>
+                        <div class="stat-label">Negative</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #f2994a;">${data.neutral_percentage}%</div>
+                        <div class="stat-label">Neutral</div>
+                    </div>
+                </div>
+                <h3 style="margin-top: 25px;">Individual Results:</h3>
+            `;
+            
+            data.analyses.slice(0, 10).forEach((tweet, i) => {
+                html += `
+                    <div class="batch-result-item">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="flex: 1;">
+                                <strong>${i + 1}.</strong> ${tweet.tweet}
+                            </div>
+                            <span class="sentiment-badge ${tweet.sentiment}" style="margin-left: 10px; font-size: 12px; padding: 5px 12px;">
+                                ${tweet.sentiment}
+                            </span>
+                        </div>
+                        <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                            Confidence: ${Math.round(tweet.confidence * 100)}%
+                        </div>
+                    </div>
+                `;
+            });
+            
+            if (data.analyses.length > 10) {
+                html += `<div style="text-align: center; color: #666; margin-top: 15px;">
+                    ... and ${data.analyses.length - 10} more
+                </div>`;
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        // File Upload
+        const dropZone = document.getElementById('dropZone');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.add('dragover');
+            }, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('dragover');
+            }, false);
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length) {
+                handleFile(files[0]);
             }
         });
+        
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) handleFile(file);
+        }
+        
+        function handleFile(file) {
+            if (!file.name.endsWith('.txt') && !file.name.endsWith('.json')) {
+                alert('Please upload a .txt or .json file!');
+                return;
+            }
+            
+            selectedFile = file;
+            document.getElementById('fileInfo').innerHTML = `
+                <strong>Selected:</strong> ${file.name} (${(file.size / 1024).toFixed(2)} KB)
+            `;
+            document.getElementById('fileInfo').classList.add('show');
+            document.getElementById('uploadBtn').disabled = false;
+        }
+        
+        async function uploadFile() {
+            if (!selectedFile) {
+                alert('Please select a file first!');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('fileResult');
+            resultDiv.innerHTML = '<div class="loading">🔄 Uploading and analyzing...</div>';
+            resultDiv.classList.add('show');
+            
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            
+            try {
+                const response = await fetch(`${API_URL}/analyze/file`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) throw new Error('File upload failed');
+                
+                const data = await response.json();
+                displayFileResult(data, resultDiv);
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        ❌ Error: ${error.message}<br>
+                        Make sure the API is running at ${API_URL}
+                    </div>
+                `;
+            }
+        }
+        
+        function displayFileResult(data, container) {
+            const stats = data.statistics;
+            
+            let html = `
+                <h2>📊 File Analysis Results</h2>
+                <div style="background: white; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <strong>File:</strong> ${data.filename}<br>
+                    <strong>Tweets Analyzed:</strong> ${data.total_tweets}
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.total}</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #28a745;">${stats.positive_percentage}%</div>
+                        <div class="stat-label">Positive</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #dc3545;">${stats.negative_percentage}%</div>
+                        <div class="stat-label">Negative</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #f2994a;">${stats.neutral_percentage}%</div>
+                        <div class="stat-label">Neutral</div>
+                    </div>
+                </div>
+            `;
+            
+            if (data.top_hashtags && data.top_hashtags.length > 0) {
+                html += `
+                    <h3 style="margin-top: 25px;">🏷️ Top Hashtags:</h3>
+                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                `;
+                data.top_hashtags.forEach(tag => {
+                    html += `<span style="display: inline-block; margin: 5px; padding: 5px 12px; background: #e3f2fd; border-radius: 15px; font-size: 14px;">
+                        #${tag.hashtag} (${tag.count})
+                    </span>`;
+                });
+                html += `</div>`;
+            }
+            
+            container.innerHTML = html;
+        }
     </script>
 </body>
 </html>

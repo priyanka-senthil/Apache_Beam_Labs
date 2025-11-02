@@ -1,0 +1,10 @@
+{"tweet": "I love Apache Beam! \ud83c\udf89", "sentiment": "POSITIVE", "confidence": 0.75, "scores": {"positive": 3, "negative": 0, "emoji": 2}}
+{"tweet": "This is terrible \ud83d\ude21", "sentiment": "NEGATIVE", "confidence": 0.75, "scores": {"positive": 0, "negative": 3, "emoji": -2}}
+{"tweet": "Great documentation!", "sentiment": "POSITIVE", "confidence": 0.5, "scores": {"positive": 1, "negative": 0, "emoji": 0}}
+{"tweet": "Horrible experience", "sentiment": "NEGATIVE", "confidence": 0.5, "scores": {"positive": 0, "negative": 1, "emoji": 0}}
+{"tweet": "Amazing performance! \u2728", "sentiment": "POSITIVE", "confidence": 0.75, "scores": {"positive": 3, "negative": 0, "emoji": 2}}
+{"tweet": "Not bad, could be better", "sentiment": "POSITIVE", "confidence": 0.5, "scores": {"positive": 1, "negative": 0, "emoji": 0}}
+{"tweet": "Best tool ever! #bigdata", "sentiment": "POSITIVE", "confidence": 0.5, "scores": {"positive": 1, "negative": 0, "emoji": 0}}
+{"tweet": "Worst API design \ud83d\udc4e", "sentiment": "NEGATIVE", "confidence": 0.75, "scores": {"positive": 0, "negative": 3, "emoji": -2}}
+{"tweet": "Really enjoying this #coding", "sentiment": "POSITIVE", "confidence": 0.5, "scores": {"positive": 1, "negative": 0, "emoji": 0}}
+{"tweet": "So frustrated with this bug", "sentiment": "NEGATIVE", "confidence": 0.5, "scores": {"positive": 0, "negative": 1, "emoji": 0}}
